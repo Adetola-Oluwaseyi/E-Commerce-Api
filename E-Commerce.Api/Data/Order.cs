@@ -11,17 +11,16 @@ namespace E_Commerce.Api.Data
         [Range(0.01, double.MaxValue, ErrorMessage = "Total amount must be a positive number.")]
         [DataType(DataType.Currency)]
         public decimal TotalAmount { get; set; }
+
         [Required]
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; }
+        public User? User { get; set; }
     }
 
     public enum OrderStatus
     {
         Pending,
-        Processing,
-        Shipped,
-        Delivered,
+        Paid,
         Cancelled
     }
 }

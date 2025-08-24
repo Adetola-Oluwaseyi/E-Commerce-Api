@@ -1,6 +1,7 @@
 
 using E_Commerce.Api.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Api
 {
@@ -15,8 +16,10 @@ namespace E_Commerce.Api
             var connectionstring = builder.Configuration
                 .GetConnectionString("ECommerceDb");
 
-            //builder.Services.AddDbContext<ECommerceDbContext>(options => options
-            //.UseSqlServer(connectionstring));
+            //Console.WriteLine(connectionstring);
+
+            builder.Services.AddDbContext<ECommerceDbContext>(options => options
+            .UseSqlServer(connectionstring));
 
             builder.Services.AddControllers().AddJsonOptions(options => options
             .JsonSerializerOptions.Converters
@@ -28,6 +31,9 @@ namespace E_Commerce.Api
 
             builder.Services.AddIdentityCore<User>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ECommerceDbContext>();
+
+            //builder.Services.AddIdentity<User, IdentityRole>()
+            //    .AddEntityFrameworkStores<ECommerceDbContext>();
 
             var app = builder.Build();
 
