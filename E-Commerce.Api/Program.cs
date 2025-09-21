@@ -2,6 +2,7 @@
 using System.Text;
 using E_Commerce.Api.Contracts;
 using E_Commerce.Api.Data;
+using E_Commerce.Api.Repositories;
 using E_Commerce.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -27,13 +28,15 @@ namespace E_Commerce.Api
             .UseSqlServer(connectionstring));
 
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             builder.Services.AddControllers().AddJsonOptions(options => options
             .JsonSerializerOptions.Converters
             .Add(new System.Text.Json.Serialization.JsonStringEnumConverter()) // For enum serialization
             );
 
-            //builder.Services.AddAutoMapper(typeof(MapperConfig));
+            builder.Services.AddAutoMapper(typeof(MapperConfig));
 
             //for bearer token   
             builder.Services.AddAuthentication(options =>

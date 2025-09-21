@@ -2,7 +2,7 @@
 
 namespace E_Commerce.Api.Models.Products
 {
-    public class ProductDto
+    public class GetProductsDto
     {
         [Required]
         [MaxLength(200)]
@@ -16,6 +16,5 @@ namespace E_Commerce.Api.Models.Products
         [Range(0, int.MaxValue, ErrorMessage = "Stock quantity must be a non-negative integer.")]
         public int StockQuantity { get; set; }
 
-        public Guid? CategoryId { get; set; }
     }
 }

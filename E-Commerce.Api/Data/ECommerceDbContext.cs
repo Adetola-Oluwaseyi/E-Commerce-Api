@@ -10,12 +10,12 @@ namespace E_Commerce.Api.Data
         {
 
         }
-        DbSet<Category> Categories { get; set; }
-        DbSet<Product> Products { get; set; }
-        DbSet<CartItem> CartItems { get; set; }
-        DbSet<OrderItem> OrderItems { get; set; }
-        DbSet<Cart> Carts { get; set; }
-        DbSet<Order> Orders { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
