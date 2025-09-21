@@ -67,11 +67,12 @@ namespace E_Commerce.Api.Repositories
             };
         }
 
-        public async Task<Product?> GetProductByIdAsync(Guid productId)
+        public async Task<GetProductDto?> GetProductByIdAsync(Guid productId)
         {
             return await _context.Products
-                .Include(c => c.Category.Name)
-                .FirstOrDefaultAsync(u => u.Id == productId);
+                .Where(u => u.Id == productId)
+                .ProjectTo<GetProductDto>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
         }
 
         public Task UpdateProductAsync(ProductDto product)

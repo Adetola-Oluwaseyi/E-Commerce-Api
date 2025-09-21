@@ -10,6 +10,10 @@ namespace E_Commerce.Api.Configurations
         {
             CreateMap<ProductDto, Product>();
             CreateMap<Product, GetProductsDto>();
+            CreateMap<Product, GetProductDto>()
+                .ForMember(
+                dest => dest.CategoryName,
+                u => u.MapFrom(src => src.Category != null ? src.Category.Name : null));
 
         }
     }

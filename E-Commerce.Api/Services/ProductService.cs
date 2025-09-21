@@ -29,7 +29,7 @@ namespace E_Commerce.Api.Services
                 var entry = e.Entries.SingleOrDefault();
                 var product = (Product)entry.Entity;
                 entry.State = EntityState.Detached;
-                if (_repository.Exists(productId))
+                if (await _repository.Exists(productId))
                 {
                     return "This product has been updated.";
                 }
@@ -48,6 +48,11 @@ namespace E_Commerce.Api.Services
         {
             return await _repository.GetAllProductsAsync(pageNo, pageSize);
         }
+        public async Task<GetProductDto?> GetProductbyIdAsync(Guid productId)
+        {
+            return await _repository.GetProductByIdAsync(productId);
+        }
+
 
     }
 }

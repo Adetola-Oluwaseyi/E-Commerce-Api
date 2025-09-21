@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using E_Commerce.Api.Contracts;
+using E_Commerce.Api.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,36 +17,31 @@ namespace E_Commerce.Api.Controllers
             _product = product;
         }
 
-        // GET: api/Tasks
+        // GET: api/Products
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetTasks()
+        public async Task<ActionResult<object>> GetProducts([FromQuery] int pageNo
+            , [FromQuery] int pageSize)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var tasks = await _task.GetAllTaskItems(userId);
-
-            return Ok(tasks);
+            return Ok(await _product.GetProductsAsync(pageNo, pageSize));
         }
 
-        // GET: api/Tasks/5
+        // GET: api/Products/5
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<TaskItemDto>> GetTask(int id)
+        public async Task<ActionResult<GetProductDto>> GetProduct(Guid id)
         {
-            //var user
+            var product = await _product.GetProductbyIdAsync(id);
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var task = await _task.GetTaskItem(userId, id, false);
-
-            if (task == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return task;
+            return product;
         }
 
-        // PUT: api/Tasks/5
+        // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
@@ -87,25 +83,24 @@ namespace E_Commerce.Api.Controllers
             //}
         }
 
-        // POST: api/Tasks
+        // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> PostTask(TaskItemDto task)
+        public async Task<ActionResult> PostProduct(ProductDto product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _task.CreateTaskItem(userId, task);
+            await _product.AddProduct(product);
 
             return StatusCode(
                 StatusCodes.Status201Created,
                 new
                 {
-                    message = "Task successfully created"
+                    message = "Product successfully created"
                 }
             );
 
@@ -115,12 +110,11 @@ namespace E_Commerce.Api.Controllers
             //return CreatedAtAction("GetTask", new { id = task.Id }, task);
         }
 
-        //DELETE: api/Tasks/5
+        //DELETE: api/Products/5
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var task = await _task.GetTaskItem(userId, id, true);
 
             if (task == null)
