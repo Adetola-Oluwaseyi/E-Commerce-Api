@@ -75,9 +75,21 @@ namespace E_Commerce.Api.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public Task UpdateProductAsync(ProductDto product)
+        public async Task<bool> UpdateProductAsync(ProductDto product, Guid productId)
         {
-            throw new NotImplementedException();
+            bool exists = _context.Products.Any(u => u.Id == productId);
+
+            if (!exists)
+                return exists;
+
+            var item = _mapper.Map<Product>(product);
+            item.Id = productId;
+
+            _context.Products.Update(item);
+            await _context.SaveChangesAsync();
+
+            return exists;
+
         }
     }
 }

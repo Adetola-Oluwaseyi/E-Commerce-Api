@@ -7,7 +7,7 @@ namespace E_Commerce.Api.Contracts
         Task<Object> GetAllProductsAsync(int pageNo = 1, int pageSize = 20);
         Task<GetProductDto?> GetProductByIdAsync(Guid productId);
         Task AddProductAsync(ProductDto product);
-        Task UpdateProductAsync(ProductDto product);
+        Task<bool> UpdateProductAsync(ProductDto product, Guid productId);
         Task DeleteProductAsync(Guid productId);
         Task<bool> Exists(Guid productId);
     }

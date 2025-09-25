@@ -53,6 +53,37 @@ namespace E_Commerce.Api.Services
             return await _repository.GetProductByIdAsync(productId);
         }
 
+        public async Task<string> UpdateProduct(ProductDto product, Guid productId)
+        {
+            try
+            {
+                var isUpdated = await _repository.UpdateProductAsync(product, productId);
+                if (!isUpdated)
+                {
+                    return "This product does not exist.";
+                }
+
+                return "This product has been updated.";
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                var entry = e.Entries.SingleOrDefault();
+                entry.State = EntityState.Detached;
+                if (await _repository.Exists(productId))
+                {
+                    return "This product has already been updated.";
+                }
+                else
+                {
+                    return "This product has been deleted.";
+                }
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
+
 
     }
 }

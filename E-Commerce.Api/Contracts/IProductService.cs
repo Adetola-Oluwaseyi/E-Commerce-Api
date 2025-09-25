@@ -8,5 +8,6 @@ namespace E_Commerce.Api.Contracts
         public Task<GetProductDto?> GetProductbyIdAsync(Guid productId);
         public Task<string> DeleteProduct(Guid productId);
         public Task AddProduct(ProductDto product);
+        public Task<string> UpdateProduct(ProductDto product, Guid productId);
     }
 }
